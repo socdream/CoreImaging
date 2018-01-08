@@ -99,41 +99,41 @@ namespace CoreImaging.Noise
             double yf = y - (int)y;
 
             double zf = z - (int)z;
-            double u = fade(xf);
-            double v = fade(yf);
-            double w = fade(zf);
+            double u = Fade(xf);
+            double v = Fade(yf);
+            double w = Fade(zf);
 
             int aaa, aba, aab, abb, baa, bba, bab, bbb;
             aaa = p[p[p[xi] + yi] + zi];
-            aba = p[p[p[xi] + inc(yi)] + zi];
-            aab = p[p[p[xi] + yi] + inc(zi)];
-            abb = p[p[p[xi] + inc(yi)] + inc(zi)];
-            baa = p[p[p[inc(xi)] + yi] + zi];
-            bba = p[p[p[inc(xi)] + inc(yi)] + zi];
-            bab = p[p[p[inc(xi)] + yi] + inc(zi)];
-            bbb = p[p[p[inc(xi)] + inc(yi)] + inc(zi)];
+            aba = p[p[p[xi] + Inc(yi)] + zi];
+            aab = p[p[p[xi] + yi] + Inc(zi)];
+            abb = p[p[p[xi] + Inc(yi)] + Inc(zi)];
+            baa = p[p[p[Inc(xi)] + yi] + zi];
+            bba = p[p[p[Inc(xi)] + Inc(yi)] + zi];
+            bab = p[p[p[Inc(xi)] + yi] + Inc(zi)];
+            bbb = p[p[p[Inc(xi)] + Inc(yi)] + Inc(zi)];
 
             double x1, x2, y1, y2;
-            x1 = lerp(grad(aaa, xf, yf, zf),                // The gradient function calculates the dot product between a pseudorandom
-                        grad(baa, xf - 1, yf, zf),              // gradient vector and the vector from the input coordinate to the 8
+            x1 = Lerp(Grad(aaa, xf, yf, zf),                // The gradient function calculates the dot product between a pseudorandom
+                        Grad(baa, xf - 1, yf, zf),              // gradient vector and the vector from the input coordinate to the 8
                         u);                                     // surrounding points in its unit cube.
-            x2 = lerp(grad(aba, xf, yf - 1, zf),                // This is all then lerped together as a sort of weighted average based on the faded (u,v,w)
-                        grad(bba, xf - 1, yf - 1, zf),              // values we made earlier.
+            x2 = Lerp(Grad(aba, xf, yf - 1, zf),                // This is all then lerped together as a sort of weighted average based on the faded (u,v,w)
+                        Grad(bba, xf - 1, yf - 1, zf),              // values we made earlier.
                           u);
-            y1 = lerp(x1, x2, v);
+            y1 = Lerp(x1, x2, v);
 
-            x1 = lerp(grad(aab, xf, yf, zf - 1),
-                        grad(bab, xf - 1, yf, zf - 1),
+            x1 = Lerp(Grad(aab, xf, yf, zf - 1),
+                        Grad(bab, xf - 1, yf, zf - 1),
                         u);
-            x2 = lerp(grad(abb, xf, yf - 1, zf - 1),
-                          grad(bbb, xf - 1, yf - 1, zf - 1),
+            x2 = Lerp(Grad(abb, xf, yf - 1, zf - 1),
+                          Grad(bbb, xf - 1, yf - 1, zf - 1),
                           u);
-            y2 = lerp(x1, x2, v);
+            y2 = Lerp(x1, x2, v);
 
-            return (lerp(y1, y2, w) + 1) / 2;                       // For convenience we bound it to 0 - 1 (theoretical min/max before is -1 - 1)
+            return (Lerp(y1, y2, w) + 1) / 2;                       // For convenience we bound it to 0 - 1 (theoretical min/max before is -1 - 1)
         }
 
-        public int inc(int num)
+        public int Inc(int num)
         {
             num++;
             if (Repeat > 0) num %= Repeat;
@@ -141,7 +141,7 @@ namespace CoreImaging.Noise
             return num;
         }
 
-        public static double grad(int hash, double x, double y, double z)
+        public static double Grad(int hash, double x, double y, double z)
         {
             int h = hash & 15;                                  // Take the hashed value and take the first 4 bits of it (15 == 0b1111)
             double u = h < 8 /* 0b1000 */ ? x : y;              // If the most significant bit (MSB) of the hash is 0 then set u = x.  Otherwise y.
@@ -159,7 +159,7 @@ namespace CoreImaging.Noise
             return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v); // Use the last 2 bits to decide if u and v are positive or negative.  Then return their addition.
         }
 
-        public static double fade(double t)
+        public static double Fade(double t)
         {
             // Fade function as defined by Ken Perlin.  This eases coordinate values
             // so that they will "ease" towards integral values.  This ends up smoothing
@@ -167,7 +167,7 @@ namespace CoreImaging.Noise
             return t * t * t * (t * (t * 6 - 15) + 10);         // 6t^5 - 15t^4 + 10t^3
         }
 
-        public static double lerp(double a, double b, double x)
+        public static double Lerp(double a, double b, double x)
         {
             return a + x * (b - a);
         }
