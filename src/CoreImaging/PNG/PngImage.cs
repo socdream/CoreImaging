@@ -160,17 +160,19 @@ namespace CoreImaging.PNG
                 var scanLine = new byte[Width * bytesPerPixel];
                 var pngArray = pngData.ToArray();
 
-                var scanLineWidth = Width * bytesPerPixel + 1;
+                var dataLineWithFilter = Width * bytesPerPixel + 1;
 
                 for (var i = 0; i < Height; i++)
                 {
-                    var filter = (PngChunk.FilterTypeCode)pngArray[scanLineWidth * i];
+                    // first byte of each line specifies the filter
+                    var filter = (PngChunk.FilterTypeCode)pngArray[dataLineWithFilter * i];
                     
-                    Array.Copy(pngArray, scanLineWidth * i + 1, scanLine, 0, Width * bytesPerPixel);
+                    // copy the data of the scan line
+                    Array.Copy(pngArray, dataLineWithFilter * i + 1, scanLine, 0, scanLine.Length);
 
                     previousScanLine = Defilter(filter, scanLine, previousScanLine, bytesPerPixel);
 
-                    Array.Copy(previousScanLine, 0, result, Width * i * bytesPerPixel, Width * bytesPerPixel);
+                    Array.Copy(previousScanLine, 0, result, scanLine.Length * i, scanLine.Length);
                 }
             }
 
@@ -184,6 +186,7 @@ namespace CoreImaging.PNG
             switch (filter)
             {
                 case PngChunk.FilterTypeCode.None:
+                    Array.Copy(scanLine, result, scanLine.Length);
                     break;
                 case PngChunk.FilterTypeCode.Sub:
                     for (var i = 0; i < scanLine.Length; i++)
@@ -224,7 +227,8 @@ namespace CoreImaging.PNG
             switch (filter)
             {
                 case PngChunk.FilterTypeCode.None:
-                    return scanLine;
+                    Array.Copy(scanLine, result, scanLine.Length);
+                    break;
                 case PngChunk.FilterTypeCode.Sub:
                     for (var i = 0; i < scanLine.Length; i++)
                         if (i < bytesPerPixel)

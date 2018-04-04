@@ -10,7 +10,7 @@ namespace CoreImaging.Test
         [TestMethod]
         public void PngTest()
         {
-            /*var png1 = new PNG.PngImage(@"C:\Temp\ErrorLicGen.png");
+            /*var png1 = new PNG.PngImage($@"C:\Temp\Font.png");
             png1.Save(@"C:\Temp\pngTest1.png");
 
             png1.DataStructure = Image.ImageDataStructure.Bgr;
