@@ -111,6 +111,7 @@ namespace CoreImaging.Tiff
                     stream.Read(Data, currentStrip * rowsPerStrip * Width * Channels, rowsPerStrip * Width * Channels);
 
                     remainingLength -= rowsPerStrip;
+                    currentStrip++;
                 }
             }
         }

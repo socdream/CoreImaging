@@ -38,6 +38,18 @@ namespace CoreImaging.Test
         }
 
         [TestMethod]
+        public void MultichannelTiffTest()
+        {
+            var test = new Tiff.TiffImage(@"C:\Users\javierol\Desktop\CMYKORB1024.tif")
+            {
+                DataStructure = Image.ImageDataStructure.Rgb
+            };
+
+            var png = new PNG.PngImage(test);
+            png.Save(@"C:\Temp\cmykTif.png");
+        }
+
+        [TestMethod]
         public void CmykTiffTest()
         {
             var test = new Tiff.TiffImage(@"C:\Temp\cmyk.tif")
