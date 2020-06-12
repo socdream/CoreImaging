@@ -10,7 +10,7 @@ namespace CoreImaging.Test
         [TestMethod]
         public void PngTest()
         {
-            /*var png1 = new PNG.PngImage(@"C:\Temp\ErrorLicGen.png");
+            /*var png1 = new PNG.PngImage($@"C:\Temp\Font.png");
             png1.Save(@"C:\Temp\pngTest1.png");
 
             png1.DataStructure = Image.ImageDataStructure.Bgr;
@@ -35,6 +35,18 @@ namespace CoreImaging.Test
             var pixel1 = png.GetPixel(10, 10);
             var pixel2 = read.GetPixel(10, 10);
             Assert.IsTrue(pixel1[0] == pixel2[0] && pixel1[1] == pixel2[1] && pixel1[2] == pixel2[2]);
+        }
+
+        [TestMethod]
+        public void MultichannelTiffTest()
+        {
+            var test = new Tiff.TiffImage(@"C:\Users\javierol\Desktop\CMYKORB1024.tif")
+            {
+                DataStructure = Image.ImageDataStructure.Rgb
+            };
+
+            var png = new PNG.PngImage(test);
+            png.Save(@"C:\Temp\cmykTif.png");
         }
 
         [TestMethod]

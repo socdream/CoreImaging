@@ -1,28 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CoreImaging</AssemblyName>
     <PackageId>JavierOltra.CoreImaging</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <PackageVersion>0.0.1</PackageVersion>
     <Authors>Javier Oltra</Authors>
     <Description>.Net Core image formats support</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>First release</PackageReleaseNotes>
-    <Copyright>Copyright 2017 (c) Javier Oltra. All rights reserved.</Copyright>
+    <Copyright>Copyright 2017-2018 (c) Javier Oltra. All rights reserved.</Copyright>
     <PackageTags>image bmp png tiff noise</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/socdream/CoreImaging/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/socdream/CoreImaging</PackageProjectUrl>
     <Title>CoreImaging</Title>
+    <Version>0.0.2</Version>
+    <RepositoryUrl>https://github.com/socdream/CoreImaging</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.0\CoreImaging.xml</DocumentationFile>
     <OutputPath>bin\Debug\netstandard2.0\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
 
 </Project>
